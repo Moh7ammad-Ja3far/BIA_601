@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <title>Result - Patient Scheduling</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body dir="rtl">
+    <div class="overlay">
+        <h1>نتائج الجدولة</h1>
+        <div id="results">
+            <h2>توزيع المرضى على الأطباء</h2>
+<table>
+    <thead>
+        <tr>
+            <th>اسم الطبيب</th>
+            <th>المرضى المخصصون</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for doctor, patients in Result.items() %}
+        <tr>
+            <td>طبيب {{ doctor.split(' ')[1] }}</td>
+            <td>
+                {% for patient in patients %}
+                مريض {{ patient.split(' ')[1] }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if UnscheduledPatients %}
+    <h2>المرضى غير المجدولين</h2>
+    <p>
+        {% for patient in UnscheduledPatients %}
+        مريض {{ patient.split(' ')[1] }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+{% else %}
+    <p>تم جدولة جميع المرضى بنجاح!</p>
+{% endif %}
+
+        </div>
+    </div>
+</body>
+</html>
